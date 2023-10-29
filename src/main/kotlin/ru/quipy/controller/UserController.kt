@@ -1,7 +1,7 @@
 package ru.quipy.controller
 
 import org.springframework.web.bind.annotation.*
-import ru.quipy.api.*
+import ru.quipy.api.user.*
 import ru.quipy.core.EventSourcingService
 import ru.quipy.logic.*
 import java.lang.IllegalArgumentException
@@ -13,8 +13,8 @@ class UserController(
     val userEsService: EventSourcingService<UUID, UserAggregate, UserAggregateState>,
 ) {
     @PostMapping("/{userName}")
-    fun createUser(@PathVariable userName: String, @RequestParam password: String, @RequestParam role: String) : UserCreatedEvent {
-        return userEsService.create { it.createUser(UUID.randomUUID(), userName, password, role) }
+    fun createUser(@PathVariable userName: String, @RequestParam password: String, @RequestParam displayName: String) : UserCreatedEvent {
+        return userEsService.create { it.createUser(UUID.randomUUID(), userName, password, displayName) }
     }
 
     @GetMapping("/{userId}")
@@ -23,9 +23,9 @@ class UserController(
     }
 
     @PostMapping("/changeUsername/{userId}")
-    fun changeUsername(@PathVariable userId: UUID, @RequestParam newUserName: String) : ChangeUserNameEvent{
+    fun changeDisplayName(@PathVariable userId: UUID, @RequestParam newDisplayName: String) : ChangeDisplayNameEvent{
         return userEsService.update(userId) {
-            it.changeUserName(userId, newUserName)
+            it.changeDisplayName(userId, newDisplayName)
         }
     }
 

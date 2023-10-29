@@ -3,9 +3,11 @@ package ru.quipy.projections
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import ru.quipy.api.*
+import ru.quipy.api.project.*
+import ru.quipy.api.task.TaskCreatedEvent
 import ru.quipy.streams.annotation.AggregateSubscriber
 import ru.quipy.streams.annotation.SubscribeEvent
+
 
 @Service
 @AggregateSubscriber(

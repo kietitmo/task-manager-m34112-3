@@ -1,19 +1,23 @@
 package ru.quipy.logic
 
-import ru.quipy.api.*
+import ru.quipy.api.user.*
 import java.util.UUID
 
 fun UserAggregateState.createUser(userId: UUID,
                                   login: String,
                                   password: String,
-                                  role: String): UserCreatedEvent{
-    return  UserCreatedEvent(userId = userId, login = login, password = password, role = role)
+                                  displayName: String): UserCreatedEvent{
+    return  UserCreatedEvent(
+        userId = userId,
+        login = login,
+        password = password,
+        displayName = displayName
+    )
 }
 
-fun UserAggregateState.changeUserName(userId: UUID, userName: String) : ChangeUserNameEvent {
-    return ChangeUserNameEvent(userId = userId, login = userName)
-}
-
-fun UserAggregateState.changeUserRole(userId: UUID, role: String) : ChangeRoleUserEvent {
-    return ChangeRoleUserEvent(userId = userId, newRole = role)
+fun UserAggregateState.changeDisplayName(userId: UUID, newDisplayName: String) : ChangeDisplayNameEvent {
+    return ChangeDisplayNameEvent(
+        userId = userId,
+        displayName = newDisplayName
+    )
 }

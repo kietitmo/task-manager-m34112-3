@@ -1,4 +1,4 @@
-package ru.quipy.api
+package ru.quipy.api.task
 
 import ru.quipy.core.annotations.DomainEvent
 import ru.quipy.domain.Event
@@ -13,8 +13,7 @@ const val ASSIGNED_EXCUTOR_TO_TASK_EVENT = "ASSIGNED_EXCUTOR_TO_TASK_EVENT"
 class TaskCreatedEvent(
     val projectId: UUID,
     val taskId: UUID,
-    val taskName: String,
-    val statusId: UUID,
+    val taskName: String
 ) : Event<TaskAggregate>(
     name = TASKK_CREATED_EVENT
 )
@@ -22,7 +21,8 @@ class TaskCreatedEvent(
 @DomainEvent(name = TASK_TITLE_CHANGED_EVENT)
 class TaskNameChangeEvent(
     val taskId: UUID,
-    val taskName: String,
+    val oldTaskName: String,
+    val newTaskName: String,
 ) : Event<TaskAggregate>(
     name = TASK_TITLE_CHANGED_EVENT
 )
@@ -30,7 +30,7 @@ class TaskNameChangeEvent(
 @DomainEvent(name = TASK_STATUS_CHANGED_EVENT)
 class TaskStatusChangeEvent(
     val taskId: UUID,
-    val statusId: UUID,
+    val newStatusId: UUID,
     val oldStatusId: UUID,
 ) : Event<TaskAggregate>(
     name = TASK_STATUS_CHANGED_EVENT

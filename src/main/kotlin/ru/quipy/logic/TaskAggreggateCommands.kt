@@ -1,30 +1,36 @@
 package ru.quipy.logic
 
-import ru.quipy.api.*
+import ru.quipy.api.task.*
 import java.util.UUID
 
-fun TaskAggregateState.createTask(projectId: UUID, taskId: UUID, taskName: String, statusId: UUID): TaskCreatedEvent{
-    return  TaskCreatedEvent(projectId = projectId, taskId = taskId, statusId = statusId, taskName = taskName)
+fun TaskAggregateState.createTask(projectId: UUID, taskId: UUID, taskName: String): TaskCreatedEvent{
+    return  TaskCreatedEvent(
+        projectId = projectId,
+        taskId = taskId,
+        taskName = taskName
+    )
 }
 
-fun TaskAggregateState.changeTaskTitle(taskId: UUID, taskName: String) : TaskNameChangeEvent {
-    if (name == taskName) {
-        throw IllegalArgumentException("Task with this name already exists: $taskName")
-    }
-    return TaskNameChangeEvent(taskId = taskId, taskName = taskName)
+fun TaskAggregateState.changeTaskTitle(newTaskName: String) : TaskNameChangeEvent {
+    return TaskNameChangeEvent(
+        taskId = this.getId(),
+        oldTaskName = this.taskName,
+        newTaskName = newTaskName
+    )
 }
 
-fun TaskAggregateState.addExecutorToTask(userId: UUID, taskId: UUID) : AssignedExcutorToTaskEvent {
-    if(executors.contains(userId)){
-        throw IllegalArgumentException("User already exists: $userId")
-    }
-    return AssignedExcutorToTaskEvent(userId = userId, taskId = taskId)
+fun TaskAggregateState.addExecutorToTask(userId: UUID) : AssignedExcutorToTaskEvent {
+    return AssignedExcutorToTaskEvent(
+        taskId = this.getId(),
+        userId = userId
+    )
 }
 
-fun TaskAggregateState.assignStatusToTask(projectId: UUID, taskId: UUID, statusId: UUID): StatusAssignedToTaskEvent {
-    if(status == statusId){
-        throw IllegalArgumentException("status already exists: $statusId")
-    }
-    var oldStatusID = status
-    return StatusAssignedToTaskEvent(projectId = projectId, taskId = taskId, statusId = statusId, oldStatusId = oldStatusID)
+fun TaskAggregateState.changeTaskStatus(statusId: UUID): TaskStatusChangeEvent {
+    return TaskStatusChangeEvent(
+        taskId = this.getId(),
+        newStatusId = statusId,
+        oldStatusId = this.statusId
+    )
 }
+
