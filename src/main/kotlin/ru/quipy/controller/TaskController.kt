@@ -23,16 +23,16 @@ class TaskController(
     }
 
     @PostMapping("/{taskId}/changeTask/")
-    fun changeTaskTitle(@PathVariable projectId: UUID, @PathVariable taskId: UUID, @RequestParam newName: String) : TaskNameChangeEvent? {
+    fun changeTaskTitle(@PathVariable projectId: UUID, @PathVariable taskId: UUID, @RequestParam newName: String) : TaskNameChangeEvent {
         return taskEsService.update(taskId){
-            it.changeTaskTitle(taskId, newName)
+            it.changeTaskTitle(newName)
         }
     }
 
     @PostMapping("/{taskId}/addUser/{userId}")
     fun addExecutorToTask(@PathVariable taskId: UUID, @RequestParam userId: UUID) : AssignedExcutorToTaskEvent?{
         return taskEsService.update(taskId){
-            it.addExecutorToTask(userId, taskId)
+            it.addExecutorToTask(userId)
         }
     }
 

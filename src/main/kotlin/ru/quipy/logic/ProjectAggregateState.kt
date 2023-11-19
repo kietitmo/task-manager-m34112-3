@@ -10,7 +10,7 @@ import java.util.UUID
 class ProjectAggregateState : AggregateState<UUID, ProjectAggregate> {
     private lateinit var projectId: UUID
     lateinit var projectTitle: String
-    lateinit var creatorId: String
+    lateinit var creatorId: UUID
     var tasks = mutableSetOf<UUID>()
     var participants = mutableSetOf<UUID>()
     var statuses = mutableMapOf<UUID, StatusEntity>()
