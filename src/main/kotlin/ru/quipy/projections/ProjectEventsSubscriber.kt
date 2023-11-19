@@ -24,6 +24,9 @@ class ProjectEventsSubscriber {
                 logger.info("Project created: {}", event.title)
             }
 
+            `when`(StatusCreatedEvent::class) { event ->
+                logger.info("Project {} - status created: {}", event.projectId, event.statusName)
+            }
         }
     }
 }
