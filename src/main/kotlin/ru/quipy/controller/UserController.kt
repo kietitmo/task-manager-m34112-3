@@ -3,7 +3,7 @@ package ru.quipy.controller
 import org.springframework.web.bind.annotation.*
 import ru.quipy.api.user.*
 import ru.quipy.core.EventSourcingService
-import ru.quipy.logic.*
+import ru.quipy.logic.user.*
 import java.lang.IllegalArgumentException
 import java.util.*
 

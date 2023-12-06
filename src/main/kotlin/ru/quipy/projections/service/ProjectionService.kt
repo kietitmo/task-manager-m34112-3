@@ -2,13 +2,14 @@ package ru.quipy.projections.service
 
 import org.springframework.stereotype.Service
 import ru.quipy.projections.*
-import java.util.UUID
+import java.util.*
 
 @Service
 class ProjectionsService constructor(val userProjectionRepo: UserProjectionRepo,
                                      val projectTaskProjectionRepo: ProjectTaskProjectionRepo,
                                      val projectUserProjectionRepo: ProjectUserProjectionRepo,
-                                     val statusProjectProjectionRepo: StatusProjectProjectionRepo){
+                                     val statusProjectProjectionRepo: StatusProjectProjectionRepo,
+                                     val projectProjectionRepository: ProjectProjectionRepo){
 
     fun isLoginExist(login: String): Boolean {
         return userProjectionRepo.existsByLogin(login);
@@ -32,5 +33,13 @@ class ProjectionsService constructor(val userProjectionRepo: UserProjectionRepo,
 
     fun getAllStatusOfProject(projectId : UUID) : List<StatusProjectProjection> {
         return statusProjectProjectionRepo.findAllByProjectIdNotNull(projectId);
+    }
+
+    fun getAllProjectInfor() : List<ProjectProjection> {
+        return projectProjectionRepository.findAll();
+    }
+
+    fun getProjectById(projectId : UUID) : ProjectProjection {
+        return projectProjectionRepository.findById(projectId).get();
     }
 }

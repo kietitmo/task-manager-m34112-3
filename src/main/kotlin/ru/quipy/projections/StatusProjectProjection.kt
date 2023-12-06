@@ -22,10 +22,19 @@ class StatusProjectRelation(
 
     @PostConstruct
     fun init() {
-        subscriptionsManager.createSubscriber(ProjectAggregate::class, "status-projet-Projection") {
+        subscriptionsManager.createSubscriber(ProjectAggregate::class, "status-projet-projection") {
 
             `when`(StatusCreatedEvent::class) { event ->
                 statusProjectProjectionRepo.save(StatusProjectProjection(event.statusId, event.statusName, event.projectId))
+            }
+            `when`(DeleteStatusEvent::class) { event ->
+                val status = statusProjectProjectionRepo.findById(event.statusId).get()
+                statusProjectProjectionRepo.delete(status)
+            }
+            `when`(ChangeStatusNameEvent::class) { event ->
+                val status = statusProjectProjectionRepo.findById(event.statusId).get()
+                status.statusName = event.newStatusName
+                statusProjectProjectionRepo.save(status)
             }
         }
 

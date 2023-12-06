@@ -9,8 +9,8 @@ const val ADD_PARTICIPANT_TO_PROJECT_EVENT = "ADD_PARTICIPANT_TO_PROJECT_EVENT"
 const val STATUS_CREATED_EVENT = "STATUS_CREATED_EVENT"
 const val CHANGE_STATUS_NAME_EVENT = "CHANGE_STATUS_NAME_EVENT"
 const val DELETE_STATUS_EVENT = "DELETE_STATUS_EVENT"
-const val TASK_CREATED_EVENT = "TASK_CREATED_EVENT"
-const val TASK_DELETED_EVENT = "TASK_DELETED_EVENT"
+const val TASK_ADDED_IN_PROJECT_EVENT = "TASK_ADDED_IN_PROJECT_EVENT"
+const val TASK_DELETED_FROM_PROJECT_EVENT = "TASK_DELETED_FROM_PROJECT_EVENT"
 
 // API
 @DomainEvent(name = PROJECT_CREATED_EVENT)
@@ -22,20 +22,20 @@ class ProjectCreatedEvent(
     name = PROJECT_CREATED_EVENT
 )
 
-@DomainEvent(name = TASK_CREATED_EVENT)
-class TaskCreatedEvent(
-    val projectId: UUID,
-    val taskId: UUID
-) : Event<ProjectAggregate>(
-    name = TASK_CREATED_EVENT
-)
-
-@DomainEvent(name = TASK_DELETED_EVENT)
-class TaskDeletedEvent(
+@DomainEvent(name = TASK_ADDED_IN_PROJECT_EVENT)
+class TaskAddedInProjectEvent(
     val projectId: UUID,
     val taskId: UUID,
 ) : Event<ProjectAggregate>(
-    name = TASK_DELETED_EVENT
+    name = TASK_ADDED_IN_PROJECT_EVENT
+)
+
+@DomainEvent(name = TASK_DELETED_FROM_PROJECT_EVENT)
+class TaskDeletedFromProjectEvent(
+    val projectId: UUID,
+    val taskId: UUID,
+) : Event<ProjectAggregate>(
+    name = TASK_DELETED_FROM_PROJECT_EVENT
 )
 
 @DomainEvent(name = ADD_PARTICIPANT_TO_PROJECT_EVENT)
@@ -61,7 +61,7 @@ class StatusCreatedEvent(
 class ChangeStatusNameEvent(
     val projectId: UUID,
     val statusId: UUID,
-    val statusName: String
+    val newStatusName: String
 ) : Event<ProjectAggregate>(
     name = CHANGE_STATUS_NAME_EVENT
 )

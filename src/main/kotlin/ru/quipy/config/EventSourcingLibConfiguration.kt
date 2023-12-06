@@ -8,7 +8,9 @@ import ru.quipy.api.project.*
 import ru.quipy.api.task.*
 import ru.quipy.api.user.*
 import ru.quipy.core.EventSourcingServiceFactory
-import ru.quipy.logic.*
+import ru.quipy.logic.project.*
+import ru.quipy.logic.task.*
+import ru.quipy.logic.user.*
 import ru.quipy.streams.AggregateEventStreamManager
 import ru.quipy.streams.AggregateSubscriptionsManager
 import java.util.*

@@ -1,4 +1,4 @@
-package ru.quipy.logic
+package ru.quipy.logic.user
 
 import ru.quipy.api.user.*
 import ru.quipy.core.annotations.StateTransitionFunc

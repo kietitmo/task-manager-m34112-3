@@ -8,8 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
-import ru.quipy.api.user.UserAggregate
-import ru.quipy.api.user.UserCreatedEvent
+import ru.quipy.api.user.*
 import ru.quipy.streams.AggregateSubscriptionsManager
 import java.util.*
 import javax.annotation.PostConstruct
@@ -24,9 +23,15 @@ class UserRelation(
 
     @PostConstruct
     fun init() {
-        subscriptionsManager.createSubscriber(UserAggregate::class, "User-Projection") {
+        subscriptionsManager.createSubscriber(UserAggregate::class, "user-projection") {
             `when`(UserCreatedEvent::class) { event ->
                 userProjectionRepository.save(UserProjection(event.userId, event.login, event.displayName))
+            }
+
+            `when`(ChangeDisplayNameEvent::class) { event ->
+                var user = userProjectionRepository.findById(event.userId).get()
+                user.displayName = event.displayName
+                userProjectionRepository.save(user)
             }
         }
     }
@@ -35,9 +40,9 @@ class UserRelation(
 @Document("user-projection")
 data class UserProjection(
     @Id
-    val userId: UUID,
-    val login: String,
-    val displayName: String,
+    var userId: UUID,
+    var login: String,
+    var displayName: String,
 )
 
 @Repository

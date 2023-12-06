@@ -4,18 +4,18 @@ import ru.quipy.core.annotations.DomainEvent
 import ru.quipy.domain.Event
 import java.util.UUID
 
-const val TASKK_CREATED_EVENT = "TASK_CREATED_EVENT"
+const val TASK_CREATED_EVENT = "TASK_CREATED_EVENT"
 const val TASK_TITLE_CHANGED_EVENT = "TASK_TITLE_CHANGED_EVENT"
 const val TASK_STATUS_CHANGED_EVENT = "TASK_STATUS_CHANGED_EVENT"
 const val ASSIGNED_EXCUTOR_TO_TASK_EVENT = "ASSIGNED_EXCUTOR_TO_TASK_EVENT"
 
-@DomainEvent(name = TASKK_CREATED_EVENT)
+@DomainEvent(name = TASK_CREATED_EVENT)
 class TaskCreatedEvent(
     val projectId: UUID,
     val taskId: UUID,
     val taskName: String
 ) : Event<TaskAggregate>(
-    name = TASKK_CREATED_EVENT
+    name = TASK_CREATED_EVENT
 )
 
 @DomainEvent(name = TASK_TITLE_CHANGED_EVENT)

@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
-import ru.quipy.logic.StatusEntity
 import ru.quipy.streams.AggregateSubscriptionsManager
 import ru.quipy.api.task.*
 import java.util.*
@@ -25,7 +24,7 @@ class ProjectTasksRelation(
 
     @PostConstruct
     fun init() {
-        subscriptionsManager.createSubscriber(TaskAggregate::class, "task-project-Projection") {
+        subscriptionsManager.createSubscriber(TaskAggregate::class, "task-project-projection") {
             `when`(TaskCreatedEvent::class) { event ->
                 projectTaskProjectionRepo.save(ProjectTasksProjection(event.projectId, event.taskId))
             }

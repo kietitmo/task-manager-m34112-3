@@ -1,8 +1,9 @@
-package ru.quipy.logic
+package ru.quipy.logic.project
 
 import ru.quipy.api.project.*
 import ru.quipy.core.annotations.StateTransitionFunc
 import ru.quipy.domain.AggregateState
+import ru.quipy.projections.*
 import java.util.*
 import java.util.UUID
 
@@ -39,7 +40,7 @@ class ProjectAggregateState : AggregateState<UUID, ProjectAggregate> {
     fun changeStatus(event: ChangeStatusNameEvent){
         val qtyTask = statuses[event.statusId]?.taskQuantity
         val colorStatus = statuses[event.statusId]?.color
-        statuses[event.statusId] = StatusEntity(event.statusId, event.statusName, colorStatus, qtyTask)
+        statuses[event.statusId] = StatusEntity(event.statusId, event.newStatusName, colorStatus, qtyTask)
     }
 
     @StateTransitionFunc
@@ -48,12 +49,12 @@ class ProjectAggregateState : AggregateState<UUID, ProjectAggregate> {
     }
 
     @StateTransitionFunc
-    fun addTaskToProject(event: TaskCreatedEvent) {
+    fun addTaskToProject(event: TaskAddedInProjectEvent) {
         tasks.add(event.taskId)
     }
 
     @StateTransitionFunc
-    fun deleteTaskFromProject(event: TaskDeletedEvent) {
+    fun deleteTaskFromProject(event: TaskDeletedFromProjectEvent) {
         tasks.remove(event.taskId)
     }
 }
@@ -68,6 +69,7 @@ data class StatusEntity(
         const val DEFAULT_STATUS = "CREATED"
     }
 }
+
 
 
 

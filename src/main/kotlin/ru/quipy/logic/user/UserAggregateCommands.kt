@@ -1,4 +1,4 @@
-package ru.quipy.logic
+package ru.quipy.logic.user
 
 import ru.quipy.api.user.*
 import java.util.UUID
@@ -16,6 +16,10 @@ fun UserAggregateState.createUser(userId: UUID,
 }
 
 fun UserAggregateState.changeDisplayName(userId: UUID, newDisplayName: String) : ChangeDisplayNameEvent {
+    if (this.displayName == newDisplayName ) {
+        throw IllegalArgumentException("New display name is the same as old name")
+    }
+
     return ChangeDisplayNameEvent(
         userId = userId,
         displayName = newDisplayName

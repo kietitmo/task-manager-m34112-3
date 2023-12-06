@@ -1,4 +1,4 @@
-package ru.quipy.projections
+package ru.quipy.projections.subscriber
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,7 +18,7 @@ class UserEventsSubscriber {
 
     @PostConstruct
     fun init() {
-        subscriptionsManager.createSubscriber(UserAggregate::class, "UserAggregateSubscriber") {
+        subscriptionsManager.createSubscriber(UserAggregate::class, "user::user-subscriber") {
 
             `when`(UserCreatedEvent::class) { event ->
                 logger.info("User {} created ", event.userId)

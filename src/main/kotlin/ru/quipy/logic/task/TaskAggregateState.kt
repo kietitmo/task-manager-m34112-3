@@ -1,12 +1,13 @@
-package ru.quipy.logic
+package ru.quipy.logic.task
 
 import ru.quipy.api.task.*
+import ru.quipy.projections.*
 import ru.quipy.core.annotations.StateTransitionFunc
 import ru.quipy.domain.AggregateState
 import java.util.UUID
 
 // Service's business logic
-class TaskAggregateState : AggregateState<UUID, TaskAggregate>{
+class TaskAggregateState: AggregateState<UUID, TaskAggregate> {
     private lateinit var taskId: UUID
     lateinit var taskName: String
     lateinit var statusId: UUID
@@ -37,4 +38,3 @@ class TaskAggregateState : AggregateState<UUID, TaskAggregate>{
         executors.add(event.userId)
     }
 }
-

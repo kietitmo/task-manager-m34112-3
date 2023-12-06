@@ -24,12 +24,12 @@ class ProjectUserRelation(
     @PostConstruct
     fun init() {
         subscriptionsManager.createSubscriber(ProjectAggregate::class, "user-project-Projection") {
-            `when`(AddParticipantToProjectEvent::class) { event ->
-                projectUserProjectionRepo.save(ProjectUserProjection(event.projectId, event.participantId))
-            }
-
             `when`(ProjectCreatedEvent::class) { event ->
                 projectUserProjectionRepo.save(ProjectUserProjection(event.projectId, event.creatorId))
+            }
+
+            `when`(AddParticipantToProjectEvent::class) { event ->
+                projectUserProjectionRepo.save(ProjectUserProjection(event.projectId, event.participantId))
             }
         }
     }
@@ -37,8 +37,8 @@ class ProjectUserRelation(
 
 @Document("user-project-projection")
 data class ProjectUserProjection(
-    val projectId: UUID,
-    val userId: UUID
+    var projectId: UUID,
+    var userId: UUID
 )
 
 @Repository
